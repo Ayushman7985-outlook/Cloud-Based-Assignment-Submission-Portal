@@ -11,7 +11,7 @@ function Login({ onLogin }) {
 
     try {
       const response = await fetch(
-        'http://127.0.0.1:8000/api/login',
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/login',
         {
           method: 'POST',
           headers: {
@@ -32,7 +32,7 @@ function Login({ onLogin }) {
       }
 
       const profileResponse = await fetch(
-        `http://127.0.0.1:8000/api/profile/${data.user_id}`
+        `https://cloud-based-assignment-submission-portal.onrender.com/api/profile/${data.user_id}`
       );
 
       if (!profileResponse.ok) {

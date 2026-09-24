@@ -273,7 +273,7 @@ python -m uvicorn app.main:app --reload
 The FastAPI API documentation is available at:
 
 ```text
-http://127.0.0.1:8000/docs
+https://cloud-based-assignment-submission-portal.onrender.com/docs/docs
 ```
 
 ## Cloud Services

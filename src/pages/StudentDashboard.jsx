@@ -11,7 +11,7 @@ function StudentDashboard({ userName, userId }) {
   const loadAssignments = async () => {
     try {
       const response = await fetch(
-        'http://127.0.0.1:8000/api/assignments'
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/assignments'
       );
 
       const data = await response.json();
@@ -34,7 +34,7 @@ function StudentDashboard({ userName, userId }) {
   const loadSubmissions = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/submissions/me?student_id=${userId}`
+        `https://cloud-based-assignment-submission-portal.onrender.com/api/submissions/me?student_id=${userId}`
       );
 
       const data = await response.json();
@@ -128,7 +128,7 @@ function StudentDashboard({ userName, userId }) {
 
     try {
       const submissionResponse = await fetch(
-        `http://127.0.0.1:8000/api/assignments/${assignment.assignment_id}/submit`,
+        `https://cloud-based-assignment-submission-portal.onrender.com/api/assignments/${assignment.assignment_id}/submit`,
         {
           method: 'POST',
           headers: {

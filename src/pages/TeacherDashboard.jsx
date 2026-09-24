@@ -14,7 +14,7 @@ function TeacherDashboard({ userName, userId }) {
   const loadAssignments = async () => {
     try {
       const response = await fetch(
-        'http://127.0.0.1:8000/api/assignments'
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/assignments'
       );
 
       const data = await response.json();
@@ -43,7 +43,7 @@ function TeacherDashboard({ userName, userId }) {
   const loadSubmissions = async () => {
     try {
       const assignmentsResponse = await fetch(
-        'http://127.0.0.1:8000/api/assignments'
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/assignments'
       );
 
       const assignmentsData =
@@ -67,7 +67,7 @@ function TeacherDashboard({ userName, userId }) {
 
       for (const assignment of teacherAssignments) {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/assignments/${assignment.assignment_id}/submissions`
+          `https://cloud-based-assignment-submission-portal.onrender.com/api/assignments/${assignment.assignment_id}/submissions`
         );
 
         const data = await response.json();
@@ -110,7 +110,7 @@ function TeacherDashboard({ userName, userId }) {
 
     try {
       const courseResponse = await fetch(
-        'http://127.0.0.1:8000/api/courses',
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/courses',
         {
           method: 'POST',
           headers: {
@@ -139,7 +139,7 @@ function TeacherDashboard({ userName, userId }) {
       setMessage('Creating assignment...');
 
       const response = await fetch(
-        'http://127.0.0.1:8000/api/assignments',
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/assignments',
         {
           method: 'POST',
           headers: {
@@ -196,7 +196,7 @@ function TeacherDashboard({ userName, userId }) {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/submissions/${submission.submission_id}/grade`,
+        `https://cloud-based-assignment-submission-portal.onrender.com/api/submissions/${submission.submission_id}/grade`,
         {
           method: 'POST',
           headers: {
@@ -236,7 +236,7 @@ function TeacherDashboard({ userName, userId }) {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/submissions/${submission.submission_id}/download`
+        `https://cloud-based-assignment-submission-portal.onrender.com/api/submissions/${submission.submission_id}/download`
       );
 
       const data = await response.json();
