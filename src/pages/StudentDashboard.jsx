@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { supabase } from '../supabase';
 
 function StudentDashboard({ userName, userId }) {
@@ -7,18 +8,23 @@ function StudentDashboard({ userName, userId }) {
   const [uploadingId, setUploadingId] = useState(null);
   const [messages, setMessages] = useState({});
   const [submissions, setSubmissions] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const loadAssignments = async () => {
     try {
       const response = await fetch(
-        'https://cloud-based-assignment-submission-portal.onrender.com/api/assignments'
+        'https://cloud-based-assignment-submission-portal.onrender.com/api/assignments',
+        {
+          cache: 'no-store'
+        }
       );
 
       const data = await response.json();
 
       if (!response.ok) {
         setMessages({
-          page: data.detail || 'Could not load assignments.'
+          page:
+            data.detail || 'Could not load assignments.'
         });
         return;
       }
@@ -34,7 +40,10 @@ function StudentDashboard({ userName, userId }) {
   const loadSubmissions = async () => {
     try {
       const response = await fetch(
-        `https://cloud-based-assignment-submission-portal.onrender.com/api/submissions/me?student_id=${userId}`
+        `https://cloud-based-assignment-submission-portal.onrender.com/api/submissions/me?student_id=${userId}&_=${Date.now()}`,
+        {
+          cache: 'no-store'
+        }
       );
 
       const data = await response.json();
@@ -52,7 +61,8 @@ function StudentDashboard({ userName, userId }) {
     } catch (error) {
       setMessages((previous) => ({
         ...previous,
-        submission: 'Could not connect to backend server.'
+        submission:
+          'Could not connect to backend server.'
       }));
     }
   };
@@ -61,6 +71,20 @@ function StudentDashboard({ userName, userId }) {
     loadAssignments();
     loadSubmissions();
   }, [userId]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+
+    await loadSubmissions();
+
+    setRefreshing(false);
+
+    setMessages((previous) => ({
+      ...previous,
+      submission:
+        'Latest marks and feedback loaded successfully.'
+    }));
+  };
 
   const handleFileChange = (assignmentId, event) => {
     const file = event.target.files[0];
@@ -81,7 +105,8 @@ function StudentDashboard({ userName, userId }) {
   };
 
   const handleSubmit = async (assignment) => {
-    const file = selectedFiles[assignment.assignment_id];
+    const file =
+      selectedFiles[assignment.assignment_id];
 
     if (!file) {
       setMessages((previous) => ({
@@ -107,14 +132,16 @@ function StudentDashboard({ userName, userId }) {
       `assignments/${assignment.assignment_id}/${userId}/` +
       `${Date.now()}-${file.name}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from('assignments')
-      .upload(filePath, file);
+    const { error: uploadError } =
+      await supabase.storage
+        .from('assignments')
+        .upload(filePath, file);
 
     if (uploadError) {
       setMessages((previous) => ({
         ...previous,
-        [assignment.assignment_id]: uploadError.message
+        [assignment.assignment_id]:
+          uploadError.message
       }));
 
       setUploadingId(null);
@@ -135,7 +162,8 @@ function StudentDashboard({ userName, userId }) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            assignment_id: assignment.assignment_id,
+            assignment_id:
+              assignment.assignment_id,
             student_id: userId,
             file_name: file.name,
             file_url: null,
@@ -156,7 +184,8 @@ function StudentDashboard({ userName, userId }) {
         setMessages((previous) => ({
           ...previous,
           [assignment.assignment_id]:
-            submissionData.detail || 'Submission failed.'
+            submissionData.detail ||
+            'Submission failed.'
         }));
 
         setUploadingId(null);
@@ -176,7 +205,7 @@ function StudentDashboard({ userName, userId }) {
 
       setUploadingId(null);
 
-      loadSubmissions();
+      await loadSubmissions();
     } catch (error) {
       await supabase.storage
         .from('assignments')
@@ -192,7 +221,9 @@ function StudentDashboard({ userName, userId }) {
     }
   };
 
-  const getSubmissionForAssignment = (assignmentId) => {
+  const getSubmissionForAssignment = (
+    assignmentId
+  ) => {
     return submissions.find(
       (submission) =>
         submission.assignment_id === assignmentId
@@ -207,10 +238,23 @@ function StudentDashboard({ userName, userId }) {
         Welcome, {userName}
       </p>
 
+      <button
+        onClick={handleRefresh}
+        disabled={refreshing}
+      >
+        {refreshing
+          ? 'Refreshing...'
+          : 'Refresh Marks & Feedback'}
+      </button>
+
       <h2>Available Assignments</h2>
 
       {messages.page && (
         <p>{messages.page}</p>
+      )}
+
+      {messages.submission && (
+        <p>{messages.submission}</p>
       )}
 
       {assignments.length === 0 && (
@@ -311,17 +355,28 @@ function StudentDashboard({ userName, userId }) {
                   ).toLocaleString()}
                 </p>
 
-                {submission.marks !== null && (
-                  <p>
-                    Marks:{' '}
-                    {submission.marks}
-                  </p>
-                )}
+                {submission.marks !== null &&
+                  submission.marks !== undefined && (
+                    <p>
+                      Marks:{' '}
+                      {submission.marks}
+                    </p>
+                  )}
 
-                {submission.feedback && (
+                {submission.feedback &&
+                  submission.feedback.trim() !== '' && (
+                    <p>
+                      Feedback:{' '}
+                      {submission.feedback}
+                    </p>
+                  )}
+
+                {submission.graded_at && (
                   <p>
-                    Feedback:{' '}
-                    {submission.feedback}
+                    Graded:{' '}
+                    {new Date(
+                      submission.graded_at
+                    ).toLocaleString()}
                   </p>
                 )}
               </div>
