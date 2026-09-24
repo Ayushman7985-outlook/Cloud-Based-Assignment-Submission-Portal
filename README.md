@@ -51,6 +51,46 @@ The objective of this project is to provide a secure cloud-hosted portal where:
 * Git
 * GitHub
 
+## ☁️ Cloud Deployment
+
+The application is deployed using cloud platforms and managed cloud services.
+
+### Frontend Deployment
+
+* Platform: Vercel
+* Technology: React
+* Purpose: Hosts the cloud-deployed frontend web application.
+
+### Backend Deployment
+
+* Platform: Render
+* Technology: FastAPI
+* Purpose: Hosts the cloud-deployed REST API backend.
+
+### Cloud Database
+
+* Platform: Supabase
+* Technology: PostgreSQL
+* Purpose: Stores users, courses, assignments, submissions, marks, and feedback.
+
+### Cloud Authentication
+
+* Platform: Supabase Authentication
+* Purpose: Handles user authentication and login.
+
+### Cloud File Storage
+
+* Platform: Supabase Storage
+* Purpose: Stores uploaded student assignment files.
+
+### Deployed Application
+
+[Open Live Application](https://cloud-based-assignment-submission-p.vercel.app/)
+
+### Deployed Backend API
+
+[Open FastAPI Documentation](https://cloud-based-assignment-submission-portal.onrender.com/docs)
+
 ## System Architecture
 
 ```text
@@ -61,30 +101,28 @@ Student / Teacher
         v
 
 React Web Application
+      (Vercel)
 
         |
 
-        v
-
-REST API
-
-        |
-
+        | REST API
         v
 
 FastAPI Backend
+      (Render)
 
         |
-        +----------------------+
-        |                      |
-        v                      v
+        +----------------------+----------------------+
+        |                      |                      |
+        v                      v                      v
 
-Supabase Database       Supabase Storage
+Supabase              Supabase PostgreSQL     Supabase Storage
+Authentication             Database             Assignment Files
 
         |
         v
 
-Authentication
+User Authentication
 ```
 
 ## Main Modules
@@ -385,3 +423,5 @@ This project is maintained using Git and GitHub as part of the cloud-computing p
 ## Project Status
 
 The core student assignment submission and teacher feedback workflow has been implemented using React, FastAPI, Supabase Authentication, Supabase PostgreSQL, and Supabase Storage.
+
+The application is cloud deployed with the React frontend hosted on Vercel and the FastAPI backend hosted on Render.
