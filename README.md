@@ -2,6 +2,14 @@
 
 A cloud-based web application for managing student assignment submissions, teacher evaluation, marks, and feedback.
 
+## 🚀 Live Application
+
+[Open Live Application](https://cloud-based-assignment-submission-p.vercel.app/)
+
+## 📚 API Documentation
+
+[Open FastAPI Documentation](https://cloud-based-assignment-submission-portal.onrender.com/docs)
+
 ## Project Objective
 
 The objective of this project is to provide a secure cloud-hosted portal where:
@@ -47,22 +55,35 @@ The objective of this project is to provide a secure cloud-hosted portal where:
 
 ```text
 Student / Teacher
+
         |
+
         v
+
 React Web Application
+
         |
+
         v
+
 REST API
+
         |
+
         v
+
 FastAPI Backend
+
         |
         +----------------------+
         |                      |
         v                      v
+
 Supabase Database       Supabase Storage
+
         |
         v
+
 Authentication
 ```
 
@@ -210,6 +231,7 @@ Sensitive credentials and environment files are excluded from the GitHub reposit
 
 ```text
 Cloud-Based-Assignment-Submission-Portal/
+
 │
 ├── Backend/
 │   └── app/
@@ -273,7 +295,7 @@ python -m uvicorn app.main:app --reload
 The FastAPI API documentation is available at:
 
 ```text
-https://cloud-based-assignment-submission-portal.onrender.com/docs/docs
+https://cloud-based-assignment-submission-portal.onrender.com/docs
 ```
 
 ## Cloud Services
@@ -290,32 +312,50 @@ Environment variables are used for cloud configuration and are not committed to 
 
 ```text
 Teacher Login
+
      |
      v
+
 Create Course
+
      |
      v
+
 Create Assignment
+
      |
      v
+
 Student Login
+
      |
      v
+
 View Assignment
+
      |
      v
+
 Upload Assignment
+
      |
      v
+
 Cloud Storage + Database
+
      |
      v
+
 Teacher Reviews Submission
+
      |
      v
+
 Marks + Feedback
+
      |
      v
+
 Student Views Feedback
 ```
 
