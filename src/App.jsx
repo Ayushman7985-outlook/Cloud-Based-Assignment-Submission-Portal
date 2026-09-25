@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import './App.css';
+
 import Register from './pages/Register';
 import Login from './pages/Login';
 import StudentDashboard from './pages/StudentDashboard';
@@ -9,9 +11,9 @@ function App() {
   const [userProfile, setUserProfile] = useState(null);
 
   const handleLogin = (profile) => {
-  console.log('Login profile:', profile);
-  setUserProfile(profile);
-};
+    console.log('Login profile:', profile);
+    setUserProfile(profile);
+  };
 
   const handleLogout = () => {
     setUserProfile(null);
@@ -20,47 +22,81 @@ function App() {
 
   if (userProfile) {
     return (
-      <div>
-        {userProfile.role === 'student' && (
-      <StudentDashboard
-  userName={userProfile.name}
-  userId={userProfile.user_id}
-/>
-        )}
+      <div className="portal-dashboard">
+        <div className="portal-dashboard-content">
+          {userProfile.role === 'student' && (
+            <StudentDashboard
+              userName={userProfile.name}
+              userId={userProfile.user_id}
+            />
+          )}
 
-        {userProfile.role === 'teacher' && (
-          <TeacherDashboard
-  userName={userProfile.name}
-  userId={userProfile.user_id}
-/>
-        )}
+          {userProfile.role === 'teacher' && (
+            <TeacherDashboard
+              userName={userProfile.name}
+              userId={userProfile.user_id}
+            />
+          )}
 
-        <br />
-
-        <button onClick={handleLogout}>Logout</button>
+          <div className="portal-logout-area">
+            <button
+              className="portal-logout-button"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      {page === 'login' && <Login onLogin={handleLogin} />}
+    <div className="portal-auth">
+      <div className="portal-auth-card">
+        <div className="portal-brand">
+          <div className="portal-brand-icon">🎓</div>
 
-      {page === 'register' && <Register />}
+          <div>
+            <h1>Assignment Portal</h1>
+            <p>Student Assignment Submission & Feedback</p>
+          </div>
+        </div>
 
-      <hr />
+        <div className="portal-auth-content">
+          {page === 'login' && (
+            <Login onLogin={handleLogin} />
+          )}
 
-      {page === 'login' && (
-        <button onClick={() => setPage('register')}>
-          Create New Account
-        </button>
-      )}
+          {page === 'register' && <Register />}
+        </div>
 
-      {page === 'register' && (
-        <button onClick={() => setPage('login')}>
-          Already have an account? Login
-        </button>
-      )}
+        <div className="portal-auth-switch">
+          {page === 'login' && (
+            <>
+              <span>Don't have an account?</span>
+
+              <button
+                onClick={() => setPage('register')}
+              >
+                Create New Account
+              </button>
+            </>
+          )}
+
+          {page === 'register' && (
+            <>
+              <span>Already have an account?</span>
+
+              <button
+                onClick={() => setPage('login')}
+              >
+                Login
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
