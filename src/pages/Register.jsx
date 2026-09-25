@@ -45,7 +45,7 @@ function Register() {
     }
 
     setMessage(
-      'Registration successful! Please check your email and verify your account.'
+      'Registration successful! You can login now.'
     );
   };
 
